@@ -1,21 +1,17 @@
 SET NAMES utf8;
-SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS `test`;
-CREATE TABLE `test` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(20) NOT NULL DEFAULT '' COMMENT '上报人',
-  `ip` varchar(255) NOT NULL DEFAULT '' COMMENT '上报IP',
-  `date` varchar(255) NOT NULL DEFAULT '' COMMENT '日期',
-  `dataFile` varchar(255) NOT NULL DEFAULT '' COMMENT '数据文件',
-  `msg` varchar(255) NOT NULL DEFAULT '' COMMENT '留言',
-  `emotion` char(20) NOT NULL DEFAULT '' COMMENT '留言的情绪',
-  `isReport` char(10) NOT NULL DEFAULT '' COMMENT '是否人为上报',
+DROP TABLE IF EXISTS `rrweb`;
+
+CREATE TABLE `rrweb` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `uin` int(6) DEFAULT NULL,
+  `ip` varchar(20) DEFAULT NULL,
+  `session` varchar(100) DEFAULT NULL,
+  `data` text CHARACTER SET utf8 COLLATE utf8_bin,
+  `startTime` int(11) DEFAULT NULL,
+  `endTime` int(11) DEFAULT NULL,
+  `updateTime` int(11) DEFAULT NULL,
+  `is_use` int(1) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
-BEGIN;
-INSERT INTO `test` VALUES ('1', 'admin', '0.0.0.0', '1970-01-01', '','','0','0');
-COMMIT;
-
-SET FOREIGN_KEY_CHECKS = 1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

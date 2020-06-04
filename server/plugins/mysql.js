@@ -2,7 +2,7 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:32:29
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-04 17:23:38
+ * @LastEditTime: 2020-06-04 18:37:24
  * @Description: file content
  */
 const mysql = require('mysql')
@@ -25,7 +25,6 @@ module.exports = {
     const query = `SELECT * FROM ${Table} limit ${start},${pageSize}`
     //查询条数
     const countQuery = `SELECT COUNT(*) FROM ${Table}`
-
     return new Promise((response, reject) => {
       connection.query(countQuery, (err, totalSize) => {
         if (err) {
@@ -51,10 +50,10 @@ module.exports = {
   },
   /**
    * 添加数据
-   * @param {[操作人姓名,上传ip,上传时间,文件名,是否认为上报,留言信息]} params
+   * @param {[项目名称, uin, 来源ip, session, 数据体, 开始时间, 结束时间, 更新时间]} params
    * @param {表名} table
    */
-  add: function(params = ['', '', '', '', '', '', ''], table) {
+  add: function(params = ['', '', '', '', '', '', '', ''], table) {
     const sql = `INSERT INTO ${table}(Id,name,ip,date,dataFile,msg,emotion,isReport) VALUES(0,?,?,?,?,?,?,?)`
     return new Promise((response, reject) => {
       connection.query(sql, params, (err, result) => {
