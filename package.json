@@ -1,0 +1,16 @@
+{
+  "name": "rrweb-server",
+  "version": "1.0.0",
+  "description": "gdy rrweb server",
+  "main": "index.js",
+  "repository": "https://github.com/corcd/rrweb-server.git",
+  "author": "王含泽 <whzcorcd@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "request": "^2.88.2"
+  }
+}
