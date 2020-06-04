@@ -2,7 +2,7 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:32:29
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-04 18:37:24
+ * @LastEditTime: 2020-06-04 19:28:38
  * @Description: file content
  */
 const mysql = require('mysql')
@@ -54,7 +54,7 @@ module.exports = {
    * @param {表名} table
    */
   add: function(params = ['', '', '', '', '', '', '', ''], table) {
-    const sql = `INSERT INTO ${table}(Id,name,ip,date,dataFile,msg,emotion,isReport) VALUES(0,?,?,?,?,?,?,?)`
+    const sql = `INSERT INTO ${table}(name,uin,ip,session,data,startTime,endTime,updateTime) VALUES(?,?,?,?,?,?,?,?)`
     return new Promise((response, reject) => {
       connection.query(sql, params, (err, result) => {
         if (err) {

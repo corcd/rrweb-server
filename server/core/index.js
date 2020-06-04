@@ -2,11 +2,10 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:45:11
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-04 19:09:06
+ * @LastEditTime: 2020-06-04 19:29:57
  * @Description: file content
  */
-const mysql = require('./server/mysql'),
-  zh = require('./server/local-zh.config'),
+const mysql = require('../plugins/mysql'),
   express = require('express'),
   path = require('path'), //系统路径模块
   bodyParser = require('body-parser'),
@@ -39,20 +38,20 @@ const sendData = {
 }
 
 //查询所有表名
-app.post('/rrweb/getTotalTables', (req, res) => {
-  mysql.getTotalTables().then(dataBase => {
-    let msg = []
-    let table_name = 'rrweb'
-    dataBase[0]['table_name'] === undefined ? (table_name = 'TABLE_NAME') : ''
-    for (let i = 0, len = dataBase.length; i < len; i++) {
-      msg.push({
-        en: dataBase[i][table_name],
-        zh: zh[dataBase[i][table_name].toLowerCase()]
-      })
-    }
-    res.send(msg)
-  })
-})
+// app.post('/rrweb/getTotalTables', (req, res) => {
+//   mysql.getTotalTables().then(dataBase => {
+//     let msg = []
+//     let table_name = 'rrweb'
+//     dataBase[0]['table_name'] === undefined ? (table_name = 'TABLE_NAME') : ''
+//     for (let i = 0, len = dataBase.length; i < len; i++) {
+//       msg.push({
+//         en: dataBase[i][table_name],
+//         zh: zh[dataBase[i][table_name].toLowerCase()]
+//       })
+//     }
+//     res.send(msg)
+//   })
+// })
 
 // 单表分页查询数据
 app.get('/rrweb/query', (req, res, next) => {
@@ -69,6 +68,7 @@ app.get('/rrweb/query', (req, res, next) => {
       res.send(response)
     })
     .catch(e => {
+      console.log(e)
       const response = Object.assign({}, sendData, {
         status: -1,
         msg: 'fail'
@@ -91,7 +91,7 @@ app.post('/rrweb/add', (req, res) => {
   // utils.writeFile(fileName, data)
 
   mysql
-    .add([name, uin, ip, session, data, updateTime, startTime, endTime], table)
+    .add([name, uin, ip, session, data, startTime, endTime, updateTime], table)
     .then(dataBase => {
       const response = Object.assign({}, sendData, {
         status: 0,
@@ -100,6 +100,7 @@ app.post('/rrweb/add', (req, res) => {
       res.send(response)
     })
     .catch(e => {
+      console.log(e)
       const response = Object.assign({}, sendData, {
         status: -1,
         msg: 'fail'
