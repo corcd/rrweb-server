@@ -1,11 +1,3 @@
-<!--
- * @Author: Whzcorcd
- * @Date: 2020-06-04 15:26:34
- * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-05 10:29:08
- * @Description: file content
--->
-
 # rrweb-server
 
 A web server that is used to record data
@@ -22,9 +14,9 @@ This project is in the middle of a high-speed iteration
 
 Accpet `Content-type: application/json`
 
-### add
+### **add**
 
-![](https://img.shields.io/badge/Method-POST-green)
+**Method:** `POST`
 
 **Router:** `/rrweb/add`
 
@@ -32,18 +24,18 @@ Accpet `Content-type: application/json`
 
 ```javascript
 /**
- * @param {项目名称} name
- * @param {uin} uin
- * @param {session} session
- * @param {数据} data
- * @param {开始时间戳} startTime
- * @param {结束时间戳} endTime
- */
+* @param {项目名称} name
+* @param {uin} uin
+* @param {session} session
+* @param {数据} data
+* @param {开始时间戳} startTime
+* @param {结束时间戳} endTime
+*/
 ```
 
-### query
+### **query**
 
-![](https://img.shields.io/badge/Method-GET-blue)
+**Method:** `GET`
 
 **Router:** `/rrweb/query`
 
@@ -51,16 +43,16 @@ Accpet `Content-type: application/json`
 
 ```javascript
 /**
- * @param {项目名} name
- * @param {uin} uin
- * @param {页码，从1开始} page
- * @param {每页条数，默认10条} pageSize
- */
-```
+* @param {项目名} name
+* @param {uin} uin
+* @param {页码，从1开始} page
+* @param {每页条数，默认10条} pageSize
+*/
+```  
 
-### data
+### **data**
 
-![](https://img.shields.io/badge/Method-GET-blue)
+**Method:** `GET`
 
 **Router:** `/rrweb/data`
 
@@ -68,14 +60,14 @@ Accpet `Content-type: application/json`
 
 ```javascript
 /**
- * @param {项目名称} name
- * @param {session} session
- */
-```
+* @param {项目名称} name
+* @param {session} session
+*/
+```  
 
-### del
+### **del**
 
-![](https://img.shields.io/badge/Method-DELETE-red)
+**Method:** `DELETE`
 
 **Router:** `/rrweb/del`
 
@@ -83,10 +75,10 @@ Accpet `Content-type: application/json`
 
 ```javascript
 /**
- * @param {项目名称} name
- * @param {session} session
- */
-```
+* @param {项目名称} name
+* @param {session} session
+*/
+```  
 
 ### others
 
