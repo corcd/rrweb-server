@@ -2,7 +2,7 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:32:29
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-04 19:28:38
+ * @LastEditTime: 2020-06-05 09:42:38
  * @Description: file content
  */
 const mysql = require('mysql')
@@ -15,14 +15,19 @@ connection.connect()
 
 module.exports = {
   /**
-   * 查询条数
+   * 查询记录数据
    * @param {表名} Table
+   * @param {项目名} name
+   * @param {uin} uin
    * @param {页码，从1开始} page
    * @param {每页条数，默认10条} pageSize
    */
-  query: function(Table, page = 1, pageSize = 10) {
+  query: function(Table, name = '', uin = 0, page = 1, pageSize = 10) {
     const start = (page - 1) * pageSize
-    const query = `SELECT * FROM ${Table} limit ${start},${pageSize}`
+    const sql = `SELECT id,name,uin,ip,session,startTime,endTime,updateTime FROM ${Table} WHERE is_use=1 AND name LIKE '${name}'`
+    if (uin) sql.concat(` AND uin = ${uin}`)
+    sql.concat(` limit ${start},${pageSize} ORDER BY id`)
+
     //查询条数
     const countQuery = `SELECT COUNT(*) FROM ${Table}`
     return new Promise((response, reject) => {
@@ -30,7 +35,7 @@ module.exports = {
         if (err) {
           reject(err.message)
         } else {
-          connection.query(query, (err, list) => {
+          connection.query(sql, (err, list) => {
             if (err) {
               reject(err.message)
             } else {
@@ -49,12 +54,30 @@ module.exports = {
     })
   },
   /**
+   * 查询具体数据
+   * @param {表名} Table
+   * @param {项目名称} name
+   * @param {session} session
+   */
+  data: function(Table, name, session) {
+    const sql = `SELECT data FROM ${Table} WHERE is_use = 1 AND name LIKE '${name}' AND session LIKE '${session}'`
+    return new Promise((response, reject) => {
+      connection.query(sql, (err, result) => {
+        if (err) {
+          reject(err.message)
+        } else {
+          response(result)
+        }
+      })
+    })
+  },
+  /**
    * 添加数据
    * @param {[项目名称, uin, 来源ip, session, 数据体, 开始时间, 结束时间, 更新时间]} params
-   * @param {表名} table
+   * @param {表名} Table
    */
-  add: function(params = ['', '', '', '', '', '', '', ''], table) {
-    const sql = `INSERT INTO ${table}(name,uin,ip,session,data,startTime,endTime,updateTime) VALUES(?,?,?,?,?,?,?,?)`
+  add: function(Table, params = ['', '', '', '', '', '', '', '']) {
+    const sql = `INSERT INTO ${Table}(name,uin,ip,session,data,startTime,endTime,updateTime) VALUES(?,?,?,?,?,?,?,?)`
     return new Promise((response, reject) => {
       connection.query(sql, params, (err, result) => {
         if (err) {
@@ -65,10 +88,16 @@ module.exports = {
       })
     })
   },
-  getTotalTables: function() {
-    const query = `SELECT table_name FROM information_schema.tables WHERE table_schema = '${databaseConfig.database}'`
+  /**
+   * 软删除数据
+   * @param {表名} Table
+   * @param {项目名称} name
+   * @param {session} session
+   */
+  del: function(Table, name, session) {
+    const sql = `UPDATE ${Table} SET is_use = 0 WHERE name LIKE '${name}' AND session LIKE '${session}'`
     return new Promise((response, reject) => {
-      connection.query(query, (err, result) => {
+      connection.query(sql, params, (err, result) => {
         if (err) {
           reject(err.message)
         } else {

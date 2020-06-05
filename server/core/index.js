@@ -2,12 +2,11 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:45:11
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-04 19:29:57
+ * @LastEditTime: 2020-06-05 09:41:55
  * @Description: file content
  */
 const mysql = require('../plugins/mysql'),
   express = require('express'),
-  path = require('path'), //系统路径模块
   bodyParser = require('body-parser'),
   request = require('request'),
   dayjs = require('dayjs')
@@ -17,10 +16,13 @@ const utils = require('../utils')
 const app = express()
 const port = 8080
 
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, 'datas')))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: '2mb' })) //body-parser 解析json格式数据
+app.use(
+  bodyParser.urlencoded({
+    //此项必须在 bodyParser.json 下面,为参数编码
+    extended: true
+  })
+)
 
 //配置跨域
 app.all('*', (req, res, next) => {
@@ -31,41 +33,26 @@ app.all('*', (req, res, next) => {
   next()
 })
 
+//默认响应体
 const sendData = {
   status: 0,
   data: {},
   msg: ''
 }
 
-//查询所有表名
-// app.post('/rrweb/getTotalTables', (req, res) => {
-//   mysql.getTotalTables().then(dataBase => {
-//     let msg = []
-//     let table_name = 'rrweb'
-//     dataBase[0]['table_name'] === undefined ? (table_name = 'TABLE_NAME') : ''
-//     for (let i = 0, len = dataBase.length; i < len; i++) {
-//       msg.push({
-//         en: dataBase[i][table_name],
-//         zh: zh[dataBase[i][table_name].toLowerCase()]
-//       })
-//     }
-//     res.send(msg)
-//   })
-// })
-
 // 单表分页查询数据
 app.get('/rrweb/query', (req, res, next) => {
   const table = 'rrweb'
-  const { page, pageSize } = req.query
+  const { name, uin, page, pageSize } = req.query
   mysql
-    .query(table, page, pageSize)
+    .query(table, name, uin, page, pageSize)
     .then(dataBase => {
       const response = Object.assign({}, sendData, {
         status: 0,
         data: dataBase,
         msg: 'success'
       })
-      res.send(response)
+      res.json(response)
     })
     .catch(e => {
       console.log(e)
@@ -73,7 +60,31 @@ app.get('/rrweb/query', (req, res, next) => {
         status: -1,
         msg: 'fail'
       })
-      res.send(response)
+      res.json(response)
+    })
+})
+
+// 获取单项数据
+app.get('/rrweb/data', (req, res, next) => {
+  const table = 'rrweb'
+  const { name, session } = req.query
+  mysql
+    .data(table, name, session)
+    .then(dataBase => {
+      const response = Object.assign({}, sendData, {
+        status: 0,
+        data: dataBase,
+        msg: 'success'
+      })
+      res.json(response)
+    })
+    .catch(e => {
+      console.log(e)
+      const response = Object.assign({}, sendData, {
+        status: -1,
+        msg: 'fail'
+      })
+      res.json(response)
     })
 })
 
@@ -91,13 +102,13 @@ app.post('/rrweb/add', (req, res) => {
   // utils.writeFile(fileName, data)
 
   mysql
-    .add([name, uin, ip, session, data, startTime, endTime, updateTime], table)
+    .add(table, [name, uin, ip, session, data, startTime, endTime, updateTime])
     .then(dataBase => {
       const response = Object.assign({}, sendData, {
         status: 0,
         msg: 'success'
       })
-      res.send(response)
+      res.json(response)
     })
     .catch(e => {
       console.log(e)
@@ -105,7 +116,30 @@ app.post('/rrweb/add', (req, res) => {
         status: -1,
         msg: 'fail'
       })
-      res.send(response)
+      res.json(response)
+    })
+})
+
+// 软删除数据
+app.delete('/rrweb/del', (req, res, next) => {
+  const table = 'rrweb'
+  const { name, session } = req.query
+  mysql
+    .data(table, name, session)
+    .then(dataBase => {
+      const response = Object.assign({}, sendData, {
+        status: 0,
+        msg: 'success'
+      })
+      res.json(response)
+    })
+    .catch(e => {
+      console.log(e)
+      const response = Object.assign({}, sendData, {
+        status: -1,
+        msg: 'fail'
+      })
+      res.json(response)
     })
 })
 
