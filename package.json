@@ -1,10 +1,10 @@
 {
   "name": "rrweb-server",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "gdy rrweb server",
   "main": "index.js",
   "repository": "https://github.com/corcd/rrweb-server.git",
-  "author": "王含泽 <whzcorcd@gmail.com>",
+  "author": "Whzcorcd <whzcorcd@gmail.com>",
   "license": "MIT",
   "private": false,
   "dependencies": {
