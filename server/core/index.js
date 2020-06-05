@@ -2,7 +2,7 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:45:11
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-05 09:41:55
+ * @LastEditTime: 2020-06-05 09:55:43
  * @Description: file content
  */
 const mysql = require('../plugins/mysql'),
@@ -19,7 +19,7 @@ const port = 8080
 app.use(bodyParser.json({ limit: '2mb' })) //body-parser 解析json格式数据
 app.use(
   bodyParser.urlencoded({
-    //此项必须在 bodyParser.json 下面,为参数编码
+    //此项必须在 bodyParser.json 之后,为参数编码
     extended: true
   })
 )

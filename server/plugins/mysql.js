@@ -2,13 +2,13 @@
  * @Author: Whzcorcd
  * @Date: 2020-06-04 15:32:29
  * @LastEditors: Wzhcorcd
- * @LastEditTime: 2020-06-05 09:42:38
+ * @LastEditTime: 2020-06-05 09:55:29
  * @Description: file content
  */
 const mysql = require('mysql')
-//引入mysql配置
+//引入 mysql 配置
 const databaseConfig = require('../../mysql.config.js')
-//加载mysql配置
+//加载 mysql 配置
 const connection = mysql.createConnection(databaseConfig)
 
 connection.connect()
