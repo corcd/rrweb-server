@@ -10,7 +10,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "dayjs": "^1.8.28",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mysql": "^2.18.1",
     "request": "^2.88.2"
   }
